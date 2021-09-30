@@ -1,0 +1,56 @@
+### AUTHENTICATION
+
+### POST /auth/login - required json with email, password
+POST http://localhost:5001/auth/login
+Content-Type: application/json
+
+{
+    "email": "testuser1@gmail.com",
+    "password" : "1234"
+}
+
+
+### POST /auth/register - required json follow user_schema
+POST http://localhost:5001/auth/register
+Content-Type: application/json
+
+{
+    "email": "testuser1@gmail.com",
+    "username": "testuser1",
+    "password" : "1234"
+}
+
+### LESSONS
+
+### GET /lessons/lesson:chapter - get all in one lesson with chapter selection
+GET http://localhost:5001/lessons/lesson1
+
+### GET /lessons/lesson:chapter/:id - get one with id in one lesson with chapter selection
+GET http://localhost:5001/lessons/lesson1/500
+
+### POST /lessons/lesson:chapter - add item with json follow lesson_schema
+POST http://localhost:5001/lessons/lesson1
+Content-Type: application/json
+
+{
+    "id": 500,
+    "word": "あ",
+    "read": "a",
+    "meaning": "อะ",
+    "img": "https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png"
+}
+
+### PUT /lessons/lesson:chapter - update item with json follow lesson_schema
+PUT http://localhost:5001/lessons/lesson1
+Content-Type: application/json
+
+{
+    "id": 500,
+    "word": "う",
+    "read": "u",
+    "meaning": "อุ",
+    "img": "https://www.nhk.or.jp/lesson/assets/images/letters/hira/u.png"
+}
+
+### DELETE /lessons/lesson:chapter/:id - delete one with id in one lesson with chapter selection
+DELETE http://localhost:5001/lessons/lesson1/500

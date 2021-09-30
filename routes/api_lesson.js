@@ -29,16 +29,18 @@ router.post("/lesson:chapter", async (req, res) => {
 });
 
 router.put("/lesson:chapter", async (req, res) => {
+  const Lesson = connection.model(`lesson${req.params.chapter}`, schema);
   try {
-    await Lesson.findOneAndUpdate({ id: req.body.id }, fields);
-    res.json({ result: "success", doc });
+    await Lesson.findOneAndUpdate({ id: req.body.id }, req.body);
+    res.json({ result: "success" });
   } catch (err) {
     res.json({ result: "failed", err });
   }
 });
 
 router.delete("/lesson:chapter/:id", async (req, res) => {
-  let doc = await Products.findOneAndDelete({ id: parseInt(req.params.id) });
+  const Lesson = connection.model(`lesson${req.params.chapter}`, schema);
+  let doc = await Lesson.findOneAndDelete({ id: parseInt(req.params.id) });
   res.json({ result: "success", message: doc });
 });
 

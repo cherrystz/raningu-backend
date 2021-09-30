@@ -1,1 +1,0 @@
-GET http://localhost:8080/api/v2/lessons HTTP/1.1
