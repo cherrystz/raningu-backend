@@ -18,20 +18,28 @@ router.get("/lesson:chapter/:id", async (req, res) => {
   res.json(doc);
 });
 
-// router.post("/", async (req, res) => {
-//   try {
-//     let fields = {
-//       id: 1,
-//       word: "あ",
-//       read: "a",
-//       meaning: "อะ",
-//       img: "https://www.nhk.or.jp/lesson/assets/images/letters/hira/a.png",
-//     };
-//     const doc = await Lesson1.create(fields);
-//     res.json({ result: "ok", doc });
-//   } catch (err) {
-//     res.json({ result: "nok", err });
-//   }
-// });
+router.post("/lesson:chapter", async (req, res) => {
+  const Lesson = connection.model(`lesson${req.params.chapter}`, schema);
+  try {
+    const doc = await Lesson.create(req.body);
+    res.json({ result: "success", doc });
+  } catch (err) {
+    res.json({ result: "failed", err });
+  }
+});
+
+router.put("/lesson:chapter", async (req, res) => {
+  try {
+    await Lesson.findOneAndUpdate({ id: req.body.id }, fields);
+    res.json({ result: "success", doc });
+  } catch (err) {
+    res.json({ result: "failed", err });
+  }
+});
+
+router.delete("/lesson:chapter/:id", async (req, res) => {
+  let doc = await Products.findOneAndDelete({ id: parseInt(req.params.id) });
+  res.json({ result: "success", message: doc });
+});
 
 module.exports = router;

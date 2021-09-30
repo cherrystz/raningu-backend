@@ -28,10 +28,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/logout", async (req, res) => {
-  jwt.destroy(req.token);
-});
-
 router.post("/register", async (req, res) => {
   try {
     console.log(JSON.stringify(req.body));

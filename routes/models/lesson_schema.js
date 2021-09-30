@@ -7,4 +7,5 @@ const schema = mongoose.Schema({
   img: String,
 });
 
+schema.index({ id: 1 }, { unique: true });
 module.exports = schema;

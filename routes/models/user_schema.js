@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const AutoIncrement = require("mongoose-sequence")(mongoose);
+
 const schema = mongoose.Schema({
   username: String,
   email: String,
@@ -7,7 +9,7 @@ const schema = mongoose.Schema({
   created: { type: Date, default: Date.now },
 });
 
-schema.index({ username: 1 }, { unique: true });
+schema.index({ email: 1 }, { unique: true });
 const connection = mongoose.createConnection(
   "mongodb+srv://dbPlug:159753@raninguu.1ibfq.mongodb.net/users"
 );
