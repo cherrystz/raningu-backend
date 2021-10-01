@@ -15,5 +15,5 @@ app.use(express.static(__dirname + "/uploaded"));
 app.use("/", require("./routes/api.js"));
 
 app.listen(port, () => {
-  console.log(`Server is listening ${port}....`);
+  console.log(`Server is listening ${port}.....`);
 });
