@@ -26,22 +26,22 @@ POST /auth/register
 
 _LESSONS_
 
-GET /lessons/lesson:chapter
+GET /lessons
+
+-get all lessons
+
+GET /lessons/chapter:chapter
 
 - get all in one lesson with chapter selection
 
-GET /lessons/lesson:chapter/:id
+GET /lessons/chapter:chapter/:id
 
 - get one with id in one lesson with chapter selection
 
-POST /lessons/lesson:chapter
+_QUIZS_
 
-- add item with json follow lesson_schema
+GET /quiz
 
-PUT /lessons/lesson:chapter
+- get all quiz
 
-- update item with json follow lesson_schema
-
-DELETE /lessons/lesson:chapter/:id
-
-- delete one with id in one lesson with chapter selection
+get /quiz/:quiz_id

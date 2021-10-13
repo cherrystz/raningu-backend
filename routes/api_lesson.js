@@ -3,17 +3,17 @@ const mongoose = require("mongoose");
 const router = express.Router();
 const lesson = require("./models/lesson_schema");
 
-router.get("/lesson:chapter", async (req, res) => {
-  const doc = await lesson.find({ lesson_id: parseInt(req.params.chapter) });
-  res.json(doc);
-});
-
-router.get("/all_lessons", async (req, res) => {
+router.get("/", async (req, res) => {
   const doc = await lesson.find({});
   res.json(doc);
 });
 
-router.get("/lesson:chapter/:id", async (req, res) => {
+router.get("/chapter:chapter", async (req, res) => {
+  const doc = await lesson.find({ lesson_id: parseInt(req.params.chapter) });
+  res.json(doc);
+});
+
+router.get("/chapter:chapter/:id", async (req, res) => {
   const doc = await lesson.find({ lesson_id: parseInt(req.params.chapter) });
   const result = doc[0].data.find((item) => {
     return item.id === parseInt(req.params.id);
