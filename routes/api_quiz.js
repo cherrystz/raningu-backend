@@ -3,13 +3,13 @@ const mongoose = require("mongoose");
 const router = express.Router();
 const quiz = require("./models/quiz_schema");
 
-router.get("/:quizid", async (req, res) => {
-  const doc = await quiz.find({ quiz_id: parseInt(req.params.quizid) });
+router.get("/", async (req, res) => {
+  const doc = await quiz.find({});
   res.json(doc);
 });
 
-router.get("/", async (req, res) => {
-  const doc = await quiz.find({});
+router.get("/:quiz_id", async (req, res) => {
+  const doc = await quiz.find({ quiz_id: parseInt(req.params.quiz_id) });
   res.json(doc);
 });
 
