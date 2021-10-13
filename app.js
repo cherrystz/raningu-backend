@@ -7,6 +7,8 @@ const cors = require("cors");
 
 let port = process.env.PORT || 5001;
 
+require("./routes/db/connection");
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

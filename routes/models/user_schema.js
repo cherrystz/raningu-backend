@@ -1,15 +1,14 @@
 const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
-  username: String,
+  uid: String,
+  displayName: String,
   email: String,
   password: String,
+  providerId: String,
   level: { type: String, default: "normal" },
   created: { type: Date, default: Date.now },
 });
 
 schema.index({ email: 1 }, { unique: true });
-const connection = mongoose.createConnection(
-  "mongodb+srv://dbPlug:159753@raninguu.1ibfq.mongodb.net/users"
-);
-module.exports = connection.model("user", schema);
+module.exports = mongoose.model("user", schema);
