@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema({
   user: {
-    type: ["Mixed"],
+    type: "Mixed",
   },
 });
 
