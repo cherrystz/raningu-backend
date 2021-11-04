@@ -1,19 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
-import Paper from "@material-ui/core/Paper";
-import Box from "@material-ui/core/Box";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Avatar from "@material-ui/core/Avatar";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import { Link } from "react-router-dom";
+import {
+  Typography,
+  Button,
+  Container,
+  Paper,
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableContainer,
+  TableRow,
+  Avatar,
+  Menu,
+  MenuItem,
+  Tooltip,
+  IconButton,
+  Snackbar,
+  Modal,
+  TextField,
+  CircularProgress,
+} from "@mui/material";
+import {
+  FileCopy,
+  MoreVert,
+  Close,
+  Facebook,
+  GitHub,
+  Google,
+} from "@mui/icons-material";
+import $ from "jquery";
+
+const deleteStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 10,
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +64,65 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const IconProvider = (uid) => {
+  switch (uid) {
+    case "google.com":
+      return <Google style={{ fill: "rgb(46, 46, 46)" }}></Google>;
+    case "facebook.com":
+      return <Facebook style={{ fill: "rgb(46, 46, 46)" }}></Facebook>;
+    case "github.com":
+      return <GitHub style={{ fill: "rgb(46, 46, 46)" }}></GitHub>;
+    default:
+      return uid;
+  }
+};
+
 export default function UserList() {
+  // menulist
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openCopy, setOpenCopy] = React.useState(false);
+  const [indicator, setShowIndicator] = React.useState(true);
+  const [openModalDelete, setOpenModalDelete] = React.useState(false);
+  const open = Boolean(anchorEl);
+
+  const copyUID = (uid) => navigator.clipboard.writeText(uid);
+  const openOptions = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+  const openCopyBar = () => setOpenCopy(true);
+  const closeCopy = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenCopy(false);
+  };
+  const showIndicator = () => setShowIndicator(true);
+  const hiddenIndicator = () => setShowIndicator(false);
+  const modalDeleteOpen = () => setOpenModalDelete(true);
+  const modalDeleteClose = () => setOpenModalDelete(false);
+
+  $(document).ready(function () {
+    $("#searchId").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#tableUser tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+      });
+    });
+  });
+
+  const actionCopy = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={closeCopy}
+      >
+        <Close fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  // user
   const classes = useStyles();
 
   const [users, setUsers] = useState([]);
@@ -54,31 +142,9 @@ export default function UserList() {
       .then((res) => res.json())
       .then((result) => {
         setUsers(result);
-      });
-  };
-
-  const UpdateUser = (id) => {
-    window.location = "/update/" + id;
-  };
-
-  const UserDelete = (id) => {
-    var data = {
-      id: id,
-    };
-    fetch("https://www.mecallapi.com/api/users/delete", {
-      method: "DELETE",
-      headers: {
-        Accept: "application/form-data",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        alert(result["message"]);
-        if (result["status"] === "ok") {
-          UsersGet();
-        }
+      })
+      .then(() => {
+        hiddenIndicator();
       });
   };
 
@@ -98,27 +164,54 @@ export default function UserList() {
               </Typography>
             </Box>
             <Box>
-              <Link to="https://console.firebase.google.com/u/2/project/websitename-csc361/authentication/users">
+              <a
+                target="_blank"
+                href="https://console.firebase.google.com/u/2/project/websitename-csc361/authentication/users"
+                rel="noreferrer"
+              >
                 <Button variant="contained" color="primary">
-                  FIREBASE
+                  FIREBASE CONSOLE
                 </Button>
-              </Link>
+              </a>
             </Box>
           </Box>
+          {indicator && (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
+          <Box sx={{ display: "flex", margin: 2 }}>
+            <TextField
+              style={{ width: "50%" }}
+              id="searchId"
+              label="Search"
+              variant="standard"
+            />
+          </Box>
           <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
+            <Table
+              id="tableUser"
+              className={classes.table}
+              aria-label="simple table"
+            >
               <TableHead>
                 <TableRow>
                   <TableCell align="center">Avatar</TableCell>
                   <TableCell align="left">Display Name</TableCell>
                   <TableCell align="left">E-mail</TableCell>
-                  <TableCell align="left">Provider ID</TableCell>
-                  <TableCell align="left">UID</TableCell>
+                  <TableCell align="center">Provider ID</TableCell>
+                  <TableCell align="center">UID</TableCell>
+                  <TableCell align="center">&nbsp;</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {users.map((user) => (
-                  <TableRow key={user.ID}>
+                  <TableRow key={user.uid}>
                     <TableCell align="center">
                       <Box display="flex" justifyContent="center">
                         <Avatar src={user.photoURL} />
@@ -126,15 +219,70 @@ export default function UserList() {
                     </TableCell>
                     <TableCell align="left">{user.displayName}</TableCell>
                     <TableCell align="left">{user.email}</TableCell>
-                    <TableCell align="left">{user.providerId}</TableCell>
-                    <TableCell align="left">{user.uid}</TableCell>
+                    <TableCell align="center">
+                      {IconProvider(user.providerData[0].providerId)}
+                    </TableCell>
+                    <TableCell align="center">{user.uid}</TableCell>
+                    <TableCell align="center">
+                      <Tooltip title="Copy UID">
+                        <IconButton>
+                          <FileCopy
+                            style={{ fill: "rgb(46, 46, 46)" }}
+                            onClick={(() => copyUID(user.uid), openCopyBar)}
+                          />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="View more options" onClick={openOptions}>
+                        <IconButton>
+                          <MoreVert style={{ fill: "rgb(46, 46, 46)" }} />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
                   </TableRow>
                 ))}
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                >
+                  <MenuItem onClick={handleClose}>Reset Password</MenuItem>
+                  <MenuItem onClick={handleClose}>Disable Account</MenuItem>
+                  <MenuItem onClick={modalDeleteOpen}>Delete Account</MenuItem>
+                </Menu>
               </TableBody>
             </Table>
           </TableContainer>
         </Paper>
       </Container>
+      <Modal
+        open={openModalDelete}
+        onClose={modalDeleteClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={deleteStyle}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Delete account
+          </Typography>
+          <IconButton>
+            <Close></Close>
+          </IconButton>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
+        </Box>
+      </Modal>
+      <Snackbar
+        open={openCopy}
+        autoHideDuration={3000}
+        onClose={closeCopy}
+        message="Copy UID Successfully!"
+        action={actionCopy}
+      />
     </div>
   );
 }

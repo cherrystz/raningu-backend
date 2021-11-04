@@ -1,0 +1,6 @@
+div.dots {
+    width: 18px;
+    height: 18px;
+    background-image: radial-gradient(circle, rgb(46, 46, 46) 2px, transparent 1px);
+    background-size: 100% 33.33%;
+}

@@ -2,23 +2,12 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
-const checkUsers = (nextPageToken) => {
-  // List batch of users, 1000 at a time.
-  getAuth()
-    .listUsers(1000, nextPageToken)
-    .then((listUsersResult) => {
-      listUsersResult.users.forEach((userRecord) => {
-        console.log("user", userRecord.toJSON());
-      });
-      if (listUsersResult.pageToken) {
-        // List next batch of users.
-        listAllUsers(listUsersResult.pageToken);
-      }
-    })
-    .catch((error) => {
-      console.log("Error listing users:", error);
-    });
-};
+const admin = require("firebase-admin");
+var serviceAccount = require("./services/serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 const requireAPI = (key) => {
   return key === process.env.FIREBASE_API_KEY;
@@ -116,6 +105,14 @@ router.post("/login_method", async (req, res) => {
   }
 });
 
-router.post("/get_user", async (req, res) => {});
+router.post("/get_user", async (req, res) => {
+  var data_records = await admin
+    .auth()
+    .listUsers()
+    .then((data) => {
+      return data.users;
+    });
+  res.send(data_records);
+});
 
 module.exports = router;
