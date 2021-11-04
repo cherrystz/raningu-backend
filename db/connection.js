@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 
+// connect to mongo
 mongoose.set("autoIndex", true);
 mongoose
   .connect(process.env.DB_URI_PATH, {
