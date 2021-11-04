@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
-const checkUser = (nextPageToken) => {
+const showUser = (nextPageToken) => {
   // List batch of users, 1000 at a time.
   getAuth()
     .listUsers(1000, nextPageToken)
