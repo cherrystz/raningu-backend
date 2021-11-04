@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const schema = mongoose.Schema({
-  lesson_id: {
+const quizSchema = mongoose.Schema({
+  quiz_id: {
     type: "Number",
   },
-  lesson_name: {
+  quiz_name: {
     type: "String",
   },
   data: {
@@ -11,4 +11,4 @@ const schema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("lesson", schema);
+module.exports = quizSchema

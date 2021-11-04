@@ -2,13 +2,10 @@ var mongoose = require("mongoose");
 
 mongoose.set("autoIndex", true);
 mongoose
-  .connect(
-    `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@${process.env.DB_URL}/raningu-db`,
-    {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-    }
-  )
+  .connect(process.env.DB_URI_PATH, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  })
   .then(() => console.log("DB Connected!"));
 
 mongoose.connection.on("connected", function () {
