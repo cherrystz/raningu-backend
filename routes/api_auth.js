@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const connection = mongoose.createConnection(
   `${process.env.DB_URI_PATH}raningu-db`
 );
-const user = connection.model("users", require("./schemas/lesson_schema"));
+const user = connection.model("users", require("./schemas/user_schema"));
 
 const requireAPI = (key) => {
   return key === process.env.FIREBASE_API_KEY;
@@ -32,20 +32,20 @@ router.post("/login_method", async (req, res) => {
       return res.json({
         result: "success",
         detail: doc,
-        method: "create success",
+        method: "create",
       });
     } catch (err) {
       return res.json({
         result: "failed",
         detail: err,
-        method: "create error",
+        method: "create",
       });
     }
   } else {
     return res.json({
       result: "success",
       detail: doc,
-      method: "login success",
+      method: "login",
     });
   }
 });
