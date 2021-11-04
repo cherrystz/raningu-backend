@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // PATH_API
-app.use("/", require("./routes/api.js"));
+app.use("/data", require("./routes/api.js"));
 app.use("/admin", require("./admin/api.js"));
 app.use("/log", require("./logs/api.js"));
 
