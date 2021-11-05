@@ -29,6 +29,8 @@ import {
   Facebook,
   GitHub,
   Google,
+  Refresh,
+  AlternateEmail,
 } from "@mui/icons-material";
 import $ from "jquery";
 
@@ -42,7 +44,7 @@ const deleteStyle = {
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-  borderRadius: 10,
+  borderRadius: 5,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -72,6 +74,10 @@ const IconProvider = (uid) => {
       return <Facebook style={{ fill: "rgb(46, 46, 46)" }}></Facebook>;
     case "github.com":
       return <GitHub style={{ fill: "rgb(46, 46, 46)" }}></GitHub>;
+    case "password":
+      return (
+        <AlternateEmail style={{ fill: "rgb(46, 46, 46)" }}></AlternateEmail>
+      );
     default:
       return uid;
   }
@@ -82,6 +88,7 @@ export default function UserList() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openCopy, setOpenCopy] = React.useState(false);
   const [indicator, setShowIndicator] = React.useState(true);
+  const [tableVisible, setTableVisible] = React.useState(false);
   const [openModalDelete, setOpenModalDelete] = React.useState(false);
   const open = Boolean(anchorEl);
 
@@ -95,8 +102,15 @@ export default function UserList() {
     }
     setOpenCopy(false);
   };
-  const showIndicator = () => setShowIndicator(true);
-  const hiddenIndicator = () => setShowIndicator(false);
+
+  const showIndicator = () => {
+    setShowIndicator(true);
+    setTableVisible(false);
+  };
+  const hiddenIndicator = () => {
+    setShowIndicator(false);
+    setTableVisible(true);
+  };
   const modalDeleteOpen = () => setOpenModalDelete(true);
   const modalDeleteClose = () => setOpenModalDelete(false);
 
@@ -131,7 +145,8 @@ export default function UserList() {
   }, []);
 
   const UsersGet = () => {
-    fetch("http://localhost:3001/data/auth/get_user", {
+    showIndicator();
+    fetch("https://raningu-api.glitch.me/data/auth/get_user", {
       method: "POST",
       cache: "no-cache",
       headers: {
@@ -175,6 +190,90 @@ export default function UserList() {
               </a>
             </Box>
           </Box>
+
+          <Box sx={{ display: "flex", margin: 2 }}>
+            <TextField
+              style={{ width: "50%" }}
+              id="searchId"
+              label="Search"
+              variant="standard"
+            />
+            <Tooltip title="Refresh" onClick={UsersGet}>
+              <IconButton>
+                <Refresh style={{ fill: "rgb(46, 46, 46)" }} />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          {tableVisible && (
+            <TableContainer component={Paper}>
+              <Table
+                id="tableUser"
+                className={classes.table}
+                aria-label="simple table"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center">Avatar</TableCell>
+                    <TableCell align="left">Display Name</TableCell>
+                    <TableCell align="left">E-mail</TableCell>
+                    <TableCell align="center">Provider ID</TableCell>
+                    <TableCell align="center">UID</TableCell>
+                    <TableCell align="center"></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {users.map((user) => (
+                    <TableRow key={user.uid}>
+                      <TableCell align="center">
+                        <Box display="flex" justifyContent="center">
+                          <Avatar src={user.photoURL} />
+                        </Box>
+                      </TableCell>
+                      <TableCell align="left">{user.displayName}</TableCell>
+                      <TableCell align="left">{user.email}</TableCell>
+                      <TableCell align="center">
+                        {IconProvider(user.providerData[0].providerId)}
+                      </TableCell>
+                      <TableCell align="center">{user.uid}</TableCell>
+                      <TableCell align="center">
+                        <Tooltip title="Copy UID">
+                          <IconButton>
+                            <FileCopy
+                              style={{ fill: "rgb(46, 46, 46)" }}
+                              onClick={(() => copyUID(user.uid), openCopyBar)}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip
+                          title="View more options"
+                          onClick={openOptions}
+                        >
+                          <IconButton>
+                            <MoreVert style={{ fill: "rgb(46, 46, 46)" }} />
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                  >
+                    <MenuItem onClick={handleClose}>Reset Password</MenuItem>
+                    <MenuItem onClick={handleClose}>Disable Account</MenuItem>
+                    <MenuItem onClick={modalDeleteOpen}>
+                      Delete Account
+                    </MenuItem>
+                  </Menu>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
           {indicator && (
             <Box
               sx={{
@@ -185,77 +284,6 @@ export default function UserList() {
               <CircularProgress />
             </Box>
           )}
-          <Box sx={{ display: "flex", margin: 2 }}>
-            <TextField
-              style={{ width: "50%" }}
-              id="searchId"
-              label="Search"
-              variant="standard"
-            />
-          </Box>
-          <TableContainer component={Paper}>
-            <Table
-              id="tableUser"
-              className={classes.table}
-              aria-label="simple table"
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">Avatar</TableCell>
-                  <TableCell align="left">Display Name</TableCell>
-                  <TableCell align="left">E-mail</TableCell>
-                  <TableCell align="center">Provider ID</TableCell>
-                  <TableCell align="center">UID</TableCell>
-                  <TableCell align="center">&nbsp;</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {users.map((user) => (
-                  <TableRow key={user.uid}>
-                    <TableCell align="center">
-                      <Box display="flex" justifyContent="center">
-                        <Avatar src={user.photoURL} />
-                      </Box>
-                    </TableCell>
-                    <TableCell align="left">{user.displayName}</TableCell>
-                    <TableCell align="left">{user.email}</TableCell>
-                    <TableCell align="center">
-                      {IconProvider(user.providerData[0].providerId)}
-                    </TableCell>
-                    <TableCell align="center">{user.uid}</TableCell>
-                    <TableCell align="center">
-                      <Tooltip title="Copy UID">
-                        <IconButton>
-                          <FileCopy
-                            style={{ fill: "rgb(46, 46, 46)" }}
-                            onClick={(() => copyUID(user.uid), openCopyBar)}
-                          />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="View more options" onClick={openOptions}>
-                        <IconButton>
-                          <MoreVert style={{ fill: "rgb(46, 46, 46)" }} />
-                        </IconButton>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                ))}
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    "aria-labelledby": "basic-button",
-                  }}
-                >
-                  <MenuItem onClick={handleClose}>Reset Password</MenuItem>
-                  <MenuItem onClick={handleClose}>Disable Account</MenuItem>
-                  <MenuItem onClick={modalDeleteOpen}>Delete Account</MenuItem>
-                </Menu>
-              </TableBody>
-            </Table>
-          </TableContainer>
         </Paper>
       </Container>
       <Modal
