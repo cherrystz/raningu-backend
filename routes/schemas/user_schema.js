@@ -5,18 +5,10 @@ const userSchema = mongoose.Schema({
     unique: true,
     required: true,
   },
-  displayName: {
-    type: "String",
-  },
-  email: {
-    type: "String",
-    unique: true,
-    required: true,
-  },
-  photoURL: {
-    type: "String",
-  },
   providerId: {
+    type: "String",
+  },
+  latestLogin: {
     type: "String",
   },
 });
