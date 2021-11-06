@@ -9,8 +9,15 @@ let port = process.env.PORT || 3000;
 
 require("./db/connection");
 
+var whitelist = ["http://localhost:3005", "https://websitename-csc361.web.app"];
 var corsOptions = {
-  origin: "http://localhost:3005",
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
 };
 
 app.use(cors(corsOptions));
