@@ -6,9 +6,12 @@ const quizSchema = mongoose.Schema({
   quiz_name: {
     type: "String",
   },
-  data: {
+  quiz_multiple: {
+    type: "Boolean",
+  },
+  questions: {
     type: ["Mixed"],
   },
 });
 
-module.exports = quizSchema
+module.exports = quizSchema;

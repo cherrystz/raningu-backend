@@ -13,7 +13,8 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:quiz_id", async (req, res) => {
-  const doc = await quiz.find({ quiz_id: parseInt(req.params.quiz_id) });
+  const doc = await quiz.findOne({ quiz_id: parseInt(req.params.quiz_id) });
+  if (!doc) return res.json({});
   res.json(doc);
 });
 
