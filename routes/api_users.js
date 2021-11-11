@@ -19,6 +19,17 @@ router.post("/get_user", async (req, res) => {
   res.send(data_records);
 });
 
+router.post("/get_admin", async (req, res) => {
+  const doc = await user.find();
+  const data = doc.map((admin) => {
+    return admin.uid;
+  });
+  if (!data.includes(req.body.uid)) {
+    return res.json({ result: "failed", msg: "Access Denied!" });
+  }
+  return res.json({ result: "success", msg: data });
+});
+
 router.post("/delete_user", async (req, res) => {
   const doc = await user.find();
   const data = doc.map((admin) => {
