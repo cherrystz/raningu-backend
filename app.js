@@ -15,6 +15,7 @@ var corsOptions = {
     "http://localhost:3000",
     "http://localhost:3005",
     "http://localhost:12819",
+    "http://192.168.1.11:12819",
     "http://harctto.3bbddns.com:12819",
     "https://websitename-csc361.web.app",
     "https://raningu-edu.web.app",

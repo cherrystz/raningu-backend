@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 const canvasSchema = mongoose.Schema({
-  id: {
-    type: "Number",
+  canvas_name: {
+    type: "String",
+  },
+  data: {
+    type: ["Mixed"],
   },
 });
 
