@@ -17,7 +17,7 @@ var corsOptions = {
     "http://localhost:12819",
     "http://harctto.3bbddns.com:12819",
     "https://websitename-csc361.web.app",
-    "https://raningu-edu.web.app/lesson",
+    "https://raningu-edu.web.app",
   ],
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
