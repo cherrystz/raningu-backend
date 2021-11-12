@@ -1,17 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
+const user = require("./schemas/user_schema");
 
 const admin = require("./services/firebaseConfig");
 
 const requireAPI = (key) => {
   return key === process.env.FIREBASE_API_KEY;
 };
-
-const connection = mongoose.createConnection(
-  `${process.env.DB_URI_PATH}raningu-db`
-);
-const user = connection.model("users", require("./schemas/user_schema"));
 
 router.post("/admin_login", async (req, res) => {
   const { uid, apiKey } = req.body;

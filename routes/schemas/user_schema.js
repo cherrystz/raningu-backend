@@ -13,4 +13,8 @@ const userSchema = mongoose.Schema({
   },
 });
 
-module.exports = userSchema;
+const connection = mongoose.createConnection(
+  `${process.env.DB_URI_PATH}raningu-db`
+);
+const user = connection.model("users", userSchema);
+module.exports = user;

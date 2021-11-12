@@ -1,11 +1,6 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const router = express.Router();
-
-const connection = mongoose.createConnection(
-  `${process.env.DB_URI_PATH}raningu-db`
-);
-const lesson = connection.model("lessons", require("./schemas/lesson_schema"));
+const lesson = require("./schemas/lesson_schema");
 
 router.get("/", async (req, res) => {
   const doc = await lesson.find({});

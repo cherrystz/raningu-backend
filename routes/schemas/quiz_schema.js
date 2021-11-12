@@ -14,4 +14,9 @@ const quizSchema = mongoose.Schema({
   },
 });
 
-module.exports = quizSchema;
+
+const connection = mongoose.createConnection(
+  `${process.env.DB_URI_PATH}raningu-db`
+);
+const quiz = connection.model("quizs", quizSchema);
+module.exports = quiz;
