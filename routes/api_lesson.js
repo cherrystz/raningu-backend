@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const lesson = require("./schemas/lesson_schema");
 
+const { requireAPI } = require("./services/firebaseConfig");
+
 router.get("/", async (req, res) => {
   const doc = await lesson.find({});
   res.json(doc);
@@ -18,6 +20,11 @@ router.get("/chapter:chapter/:id", async (req, res) => {
     return item.id === parseInt(req.params.id);
   });
   res.json(result);
+});
+
+router.post("/create", async (req, res) => {
+  const doc = await lesson.create(req.body);
+  res.json(doc);
 });
 
 module.exports = router;
