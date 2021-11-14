@@ -12,8 +12,10 @@ const quizSchema = mongoose.Schema({
   questions: {
     type: ["Mixed"],
   },
+  answers: {
+    type: ["Mixed"],
+  },
 });
-
 
 const connection = mongoose.createConnection(
   `${process.env.DB_URI_PATH}raningu-db`

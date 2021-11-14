@@ -13,4 +13,13 @@ router.get("/:quiz_id", async (req, res) => {
   res.json(doc);
 });
 
+router.post("/create/:quiz_id", async (req, res) => {
+  const doc = await quiz.findOne({ quiz_id: parseInt(req.params.quiz_id) });
+  if (!doc) return res.json({});
+  // doc.answers = doc.qu.filter((x) => {
+  //   return x.isCorrect === true;
+  // });
+  res.json(doc);
+});
+
 module.exports = router;

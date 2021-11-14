@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const lesson = require("./schemas/lesson_schema");
 
-const { requireAPI } = require("./services/firebaseConfig");
+const requireAPI = (key) => {
+  return key === process.env.FIREBASE_API_KEY;
+};
 
 router.get("/", async (req, res) => {
   const doc = await lesson.find({});
