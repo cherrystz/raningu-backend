@@ -34,8 +34,13 @@ http://<domain-name.com>/
 > ```http
 > http://<domain-name.com>/data/<collection>
 > ```
+  
 > `- Auth API` : For sign in with roles Administrator.
+  
 > `- Lessons API` : For CRUD Lessons
+  
 > `- Quiz API` : For CRUD Quiz
+  
 > `- Canvas API` : For CRUD Canvas
+  
 > `- Users API` : For Users API (Firebase Admin)
