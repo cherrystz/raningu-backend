@@ -7,8 +7,8 @@ router.post("/quiz_log", async (req, res) => {
   res.json(doc);
 });
 
-router.get("/quiz_log", async (req, res) => {
-  const doc = await logs.find({ uid: req.body.uid });
+router.post("/get_quiz_log", async (req, res) => {
+  const doc = await logs.find({ uid: req.body.uid }).sort({ date: -1 });
   res.json(doc);
 });
 
