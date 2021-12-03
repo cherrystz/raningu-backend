@@ -20,17 +20,17 @@ export default function MenuDashboard() {
     {
       name: "Quiz",
       path: "quiz",
-      enabled: false,
+      enabled: true,
     },
     {
       name: "Admin",
       path: "admin",
-      enabled: false,
+      enabled: true,
     },
     {
       name: "Logs",
       path: "logs",
-      enabled: false,
+      enabled: true,
     },
   ];
   return (

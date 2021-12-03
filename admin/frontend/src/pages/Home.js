@@ -78,9 +78,14 @@ export default function Home() {
               >
                 <Button variant="contained">Go to Rāningu</Button>
               </a>
-              <NavLink to="/docs" style={{ textDecoration: "none" }}>
+
+              <a
+                href="https://drive.google.com/drive/folders/1zxzrcsLj9seeLfyvv1-TR47IdErAFm7L?usp=sharing"
+                target="__blank"
+                style={{ textDecoration: "none" }}
+              >
                 <Button variant="outlined">Documentation</Button>
-              </NavLink>
+              </a>
             </Stack>
           </Container>
         </Box>

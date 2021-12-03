@@ -7,10 +7,7 @@ const userSchema = mongoose.Schema({
   },
   providerId: {
     type: "String",
-  },
-  latestLogin: {
-    type: "String",
-  },
+  }
 });
 
 const connection = mongoose.createConnection(

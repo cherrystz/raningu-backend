@@ -9,6 +9,9 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/admin/Dashboard";
 import Users from "./pages/admin/Users";
 import Lessons from "./pages/admin/Lessons";
+import Quiz from "./pages/admin/Quiz";
+import Logs from "./pages/admin/Logs";
+import Admin from "./pages/admin/Admin";
 
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -75,10 +78,9 @@ function App() {
         >
           <Route path="users" element={<Users session={session} />} />
           <Route path="lessons" element={<Lessons session={session} />} />
-          <Route path="quiz"  />
-          <Route path="admin" />
-          <Route path="logs" />
-
+          <Route path="quiz" element={<Quiz session={session} />} />
+          <Route path="admin" element={<Admin session={session} />} />
+          <Route path="logs" element={<Logs session={session} />} />
           <Route path="" element={<Navigate to="users" />} />
         </Route>
       </Routes>

@@ -11,6 +11,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import Divider from "@mui/material/Divider";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { NavLink } from "react-router-dom";
+import Link from "@mui/material/Link";
 import { signOut } from "../services/FirebaseConfig";
 import { Box } from "@mui/system";
 import Avatar from "@mui/material/Avatar";
@@ -22,8 +23,6 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -193,30 +192,34 @@ const Navbar = ({ session }) => {
         <Box>
           {session.user ? (
             <Box>
-              {session.level === "admin" ? (
-                <Tooltip
-                  title="Documentation"
-                  style={{ textDecoration: "none", color: "white" }}
-                >
-                  <IconButton onClick={toggleDrawer("right", true)}>
-                    <DescriptionIcon style={{ fill: "white" }} />
-                  </IconButton>
-                </Tooltip>
-              ) : (
-                <Button
-                  onClick={toggleDrawer("right", true)}
-                  variant="outlined"
-                  style={{
-                    textDecoration: "none",
-                    borderColor: "white",
-                    color: "white",
-                  }}
-                  startIcon={<DescriptionIcon />}
-                >
-                  Docs
-                </Button>
-              )}
-
+              <a
+                href="https://drive.google.com/drive/folders/1zxzrcsLj9seeLfyvv1-TR47IdErAFm7L?usp=sharing"
+                target="__blank"
+                style={{ textDecoration: "none" }}
+              >
+                {session.level === "admin" ? (
+                  <Tooltip
+                    title="Documentation"
+                    style={{ textDecoration: "none", color: "white" }}
+                  >
+                    <IconButton>
+                      <DescriptionIcon style={{ fill: "white" }} />
+                    </IconButton>
+                  </Tooltip>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    style={{
+                      textDecoration: "none",
+                      borderColor: "white",
+                      color: "white",
+                    }}
+                    startIcon={<DescriptionIcon />}
+                  >
+                    Docs
+                  </Button>
+                )}
+              </a>
               {session.level === "normal" && (
                 <Divider
                   orientation="vertical"
@@ -225,7 +228,6 @@ const Navbar = ({ session }) => {
                   sx={{ px: 1 }}
                 />
               )}
-
               {session.level === "admin" ? (
                 <Tooltip
                   title="Admin Console"
@@ -251,7 +253,6 @@ const Navbar = ({ session }) => {
                   </Button>
                 </NavLink>
               )}
-
               <Tooltip title="User Control">
                 <IconButton onClick={handleClick}>
                   <Avatar src={session.user.photoURL} />
@@ -263,7 +264,8 @@ const Navbar = ({ session }) => {
               <Button
                 variant="text"
                 color="inherit"
-                onClick={toggleDrawer("right", true)}
+                href="https://drive.google.com/drive/folders/1zxzrcsLj9seeLfyvv1-TR47IdErAFm7L?usp=sharing"
+                target="_blank"
               >
                 Documentation
               </Button>
